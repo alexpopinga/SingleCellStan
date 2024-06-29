@@ -56,12 +56,12 @@ transformed parameters {
 
 model {
   // Priors
-  k_on ~ normal(1, 1);
-  k_off ~ normal(1, 1);
-  k_m ~ normal(1, 1);
-  gamma_m ~ normal(1, 1);
-  k_p ~ normal(1, 1);
-  gamma_p ~ normal(1, 1);
+  k_on ~ lognormal(0, 1);
+  k_off ~ lognormal(0, 1);
+  k_m ~ lognormal(0, 1);
+  gamma_m ~ lognormal(0, 1);
+  k_p ~ lognormal(0, 1);
+  gamma_p ~ lognormal(0, 1);
 
   // Likelihood
   for (i in 1:N) {
