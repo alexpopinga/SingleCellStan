@@ -1,4 +1,5 @@
 library(rstan)
+library(ggplot2)
 
 # Example data
 time_points <- c(0.1, 10, 20, 30, 40, 50)
@@ -32,7 +33,14 @@ init_fun <- function() {
 
 # Compile and fit the model
 stan_model <- stan_model(file = 'bursting_gene_model.stan')
-fit <- sampling(stan_model, data = data, init = init_fun, iter = 2000, warmup = 1000, chains = 4, verbose = TRUE)
+fit <- sampling(stan_model, data = data, init = init_fun, iter = 400, warmup = 200, chains = 4, verbose = TRUE)
 
 # Print the results
 print(fit)
+
+# Plot traces to check convergence and save the plot of the chains to a file
+traceplot(fit)
+ggsave("traceplot.png", traceplot(fit))
+
+# Display summary statistics
+summary(fit)$summary
