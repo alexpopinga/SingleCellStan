@@ -1,4 +1,3 @@
-stan
 functions {
   real[] bursting_gene_odes(real t,
                             real[] y,
