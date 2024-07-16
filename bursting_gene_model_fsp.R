@@ -12,17 +12,43 @@ S <- matrix(c(
 states <- expand.grid(OFF = 0:1, ON = 0:1, Protein = 0:20)
 states <- as.matrix(states[states$OFF + states$ON == 1, ])
 
-# Example data
-time_points <- c(0.1, 10, 20, 30, 40, 50) # Use a small positive value for the initial time
+# Example data - FSP generated
+time_points <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) # Use a small positive value for the initial time
 observed_data <- matrix(c(
-  1, 0, 0,
-  0, 1, 20,
-  1, 0, 40,
-  0, 1, 50,
-  1, 0, 20,
-  1, 0, 15
+1,0,36,
+1,0,17,
+1,0,15,
+1,0,29,
+0,1,37,
+1,0,23,
+0,1,69,
+0,1,35,
+0,1,25,
+1,0,22,
+0,1,19,
+1,0,38,
+0,1,23,
+1,0,6,
+1,0,22,
+0,1,38,
+1,0,13,
+1,0,12,
+1,0,28,
+1,0,28
 ), ncol = 3, byrow = TRUE)
 initial_conditions <- c(1, 0, 0)  # Initial OFF, ON, Protein
+
+# Example data - SSA generated
+#time_points <- c(0.1, 10, 20, 30, 40, 50) # Use a small positive value for the initial time
+#observed_data <- matrix(c(
+#  1, 0, 0,
+#  0, 1, 20,
+#  1, 0, 40,
+#  0, 1, 50,
+#  1, 0, 20,
+#  1, 0, 15
+#), ncol = 3, byrow = TRUE)
+#initial_conditions <- c(1, 0, 0)  # Initial OFF, ON, Protein
 
 data <- list(
   T = length(time_points),
@@ -48,7 +74,7 @@ init_fun <- function() {
 
 # Compile and fit the model
 stan_model <- stan_model(file = 'bursting_gene_model_fsp.stan')
-fit <- sampling(stan_model, data = data, init = init_fun, iter = 400, warmup = 200, chains = 4, verbose = TRUE)
+fit <- sampling(stan_model, data = data, init = init_fun, iter = 400, warmup = 200, chains = 1, verbose = TRUE)
 
 # Print the results
 print(fit)
