@@ -36,9 +36,9 @@ functions {
     
     // Compute derivatives using stoichiometry matrix and propensities
     for (i in 1:4) {
-      dydt[1] += S[1, i] * w[i];
-      dydt[2] += S[2, i] * w[i];
-      dydt[3] += S[3, i] * w[i];
+      dydt[1] += S[1, i] * w[i]; // (-1 * kon * x1 + (1 * koff * x2) + (0 * kP * x2) + (0 * gam * x3)
+      dydt[2] += S[2, i] * w[i]; // (1 * kon * x1) + (-1 * koff * x2) + (0) + (0)
+      dydt[3] += S[3, i] * w[i]; // (kP * x2) - (gam * x3)
     }
     
     return dydt;

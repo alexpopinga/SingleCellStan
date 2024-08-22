@@ -9,8 +9,8 @@ S <- matrix(c(
 
 # Define the states in the FSP approximation
 # This is a simplification for illustrative purposes; you may need to generate this based on your specific problem.
-states <- expand.grid(OFF = 0:1, ON = 0:1, Protein = 0:20)
-states <- as.matrix(states[states$OFF + states$ON == 1, ])
+states <- expand.grid(OFF = 0:1, ON = 0:1, Protein = 0:180) # all possible combinations of states
+states <- as.matrix(states[states$OFF + states$ON == 1, ]) # all combos of states under condition ON + OFF == 1
 
 # Example data - FSP generated
 time_points <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) # Use a small positive value for the initial time
@@ -64,10 +64,10 @@ data <- list(
 # Custom initialization function
 init_fun <- function() {
   list(
-    kon = exp(rnorm(1, 0, 1)),  # Lognormal(0, 1)
-    koff = exp(rnorm(1, 0, 1)),   # Lognormal(0, 1)
-    kP = exp(rnorm(1, 0, 1)),  # Lognormal(0, 1)
-    gam = exp(rnorm(1, 0, 1)),   # Lognormal(0, 1)
+    kon = exp(rnorm(1, 0, 1)),  # Lognormal(0, 1) - Truth: 0.2
+    koff = exp(rnorm(1, 0, 1)),   # Lognormal(0, 1) - Truth: 0.5
+    kP = exp(rnorm(1, 0, 1)),  # Lognormal(0, 1) - Truth: 10
+    gam = exp(rnorm(1, 0, 1)),   # Lognormal(0, 1) - Truth: 0.1
     sigma = exp(rnorm(1, 0, 1))   # Lognormal(0, 1)
   )
 }
@@ -76,26 +76,25 @@ init_fun <- function() {
 stan_model <- stan_model(file = 'bursting_gene_model_fsp.stan')
 fit <- sampling(stan_model, data = data, init = init_fun, iter = 400, warmup = 200, chains = 1, verbose = TRUE)
 
+
 # Print the results
-print(fit)
+#print(fit)
 
 # Plot trace plots to check convergence
-traceplot(fit)
+#traceplot(fit)
 
 # Display summary statistics
-summary_stats <- summary(fit)$summary
-print(summary_stats)
+#summary_stats <- summary(fit)$summary
+#print(summary_stats)
 
 # Save the plot of the chains to a file
 library(ggplot2)
 ggsave("traceplot.png", traceplot(fit))
 
 # Additional diagnostics
-check_hmc_diagnostics(fit)
+#check_hmc_diagnostics(fit)
 
-# Print the results
-print(fit)
 
 # Check the sampling algorithm used
-stan_args <- fit@stan_args
-print(stan_args)
+#stan_args <- fit@stan_args
+#print(stan_args)
