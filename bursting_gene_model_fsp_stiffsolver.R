@@ -8,7 +8,7 @@ S <- matrix(c(
 ), nrow = 3, byrow = TRUE)
 
 # Define the states in the FSP approximation
-states <- expand.grid(OFF = 0:1, ON = 0:1, Protein = 0:20)
+states <- expand.grid(OFF = 0:1, ON = 0:1, Protein = 0:180)
 states <- as.matrix(states[states$OFF + states$ON <= 1, ])
 
 # Example data
